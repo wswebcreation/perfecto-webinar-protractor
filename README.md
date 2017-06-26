@@ -20,7 +20,7 @@ When the project is cloned install all the dependencies with
 ## Run local
 To run the tests local execute `npm run test.local`
 
-# Run on the perfecto cloud
+## Run on the perfecto cloud
 Before you are able to run against the Perfecto cloud add a file to your project called `perfecto.config.json` and add the following data to it
 
 ```javascript
