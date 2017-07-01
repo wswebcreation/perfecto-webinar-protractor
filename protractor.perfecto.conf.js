@@ -35,24 +35,24 @@ exports.config = {
                 environment: 'perfecto'
             }
         },
-        // {
-        //     browserName: 'Firefox',
-        //     browserVersion: '54',
-        //     location: 'EU Frankfurt',
-        //     platformName: 'Windows',
-        //     platformVersion: '10',
-        //     resolution: '1440x900',
-        //     password: perfectoConfig.password,
-        //     user: perfectoConfig.user,
-        //     // Custom
-        //     deviceProperties: {
-        //         environment: 'perfecto'
-        //     }
-        // },
+        {
+            browserName: 'Firefox',
+            browserVersion: '54',
+            location: 'EU Frankfurt',
+            platformName: 'Windows',
+            platformVersion: '10',
+            resolution: '1440x900',
+            password: perfectoConfig.password,
+            user: perfectoConfig.user,
+            // Custom
+            deviceProperties: {
+                environment: 'perfecto'
+            }
+        },
         // {
         //     browserName: 'Edge',
         //     browserVersion: '14',
-        //     location: 'EU Frankfurt',
+        //     location: 'NA-US-BOS',
         //     platformName: 'Windows',
         //     platformVersion: '10',
         //     resolution: '1440x900',
@@ -66,7 +66,7 @@ exports.config = {
         // {
         //     browserName: 'Internet Explorer',
         //     browserVersion: '11',
-        //     location: 'EU Frankfurt',
+        //     location: 'US East',
         //     platformName: 'Windows',
         //     platformVersion: '10',
         //     resolution: '1440x900',
@@ -77,20 +77,20 @@ exports.config = {
         //         environment: 'perfecto'
         //     }
         // },
-        // {
-        //     browserName: 'Safari',
-        //     browserVersion: '10',
-        //     location: 'NA-US-BOS',
-        //     platformName: 'Mac',
-        //     platformVersion: 'macOS Sierra',
-        //     resolution: '1440x900',
-        //     password: perfectoConfig.password,
-        //     user: perfectoConfig.user,
-        //     // Custom
-        //     deviceProperties: {
-        //         environment: 'perfecto'
-        //     }
-        // }
+        {
+            browserName: 'Safari',
+            browserVersion: '10',
+            location: 'NA-US-BOS',
+            platformName: 'Mac',
+            platformVersion: 'macOS Sierra',
+            resolution: '1440x900',
+            password: perfectoConfig.password,
+            user: perfectoConfig.user,
+            // Custom
+            deviceProperties: {
+                environment: 'perfecto'
+            }
+        }
     ],
 
     /**

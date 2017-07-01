@@ -1,6 +1,6 @@
 module.exports = helpers();
 
-function helpers () {
+function helpers() {
     return {
         acceptCookies: acceptCookies
     };
@@ -10,10 +10,9 @@ function helpers () {
      * @return { Promise<void> }
      */
     function acceptCookies() {
-        return element(by.tagName('iframe')).isPresent()
-            .then(isPresent => {
-                return isPresent ? _clickOnAccept() : Promise.resolve();
-            });
+        return browser.sleep(500)
+            .then(() => element(by.tagName('iframe')).isPresent())
+            .then(isPresent => isPresent ? _clickOnAccept() : Promise.resolve());
     }
 
     /**
@@ -22,7 +21,13 @@ function helpers () {
      * @private
      */
     function _clickOnAccept() {
-        return browser.switchTo().frame($('iframe').getWebElement())
+        /**
+         * This fails on Safari 10, the `switchTo()` doesn't seem to work good, non responsive hack for Safari
+         */
+        if (browser.browserName.toLowerCase() === 'safari') {
+            return browser.actions().mouseMove({x: 493, y: 333}).mouseDown().mouseUp().perform();
+        }
+        return browser.switchTo().frame(0)
             .then(() => {
                 browser.ignoreSynchronization = true;
                 return $('.accept').click();

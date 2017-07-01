@@ -24,7 +24,7 @@ defineSupportCode(({Given, When, Then}) => {
             .each((travelPossibility) => {
                 return travelPossibility.element(by.css('.rp-mogelijkheidTijd.rp-vertrekTijd')).getText()
                     .then((departureTime) => {
-                        actualLeaveTimes.push(departureTime);
+                        actualLeaveTimes.push(departureTime.trim());
                     });
             })
             .then(() => {
@@ -32,7 +32,7 @@ defineSupportCode(({Given, When, Then}) => {
             });
     });
 
-    Then('he should see the preselected journey will leave at {departureTime} from platform {platform} and costs {amount} for a single way {travelClass} class ticket',
+    Then('he should see the preselected journey will leave at {departureTime} from platform {platform} and costs € {amount} for a single way {travelClass} class ticket',
         (departureTime, platform, amount, travelClass) => {
             element.all(by.repeater('mogelijkheid in reisadviesCtrl.advies.reismogelijkheden track by mogelijkheid.hash'))
                 .filter((travelPossibility) => {
@@ -40,13 +40,13 @@ defineSupportCode(({Given, When, Then}) => {
                         .then((classes) => classes.indexOf('rp-mogelijkheid--selected') > -1);
                 })
                 .first().element(by.css('.rp-mogelijkheidTijd.rp-vertrekTijd')).getText()
-                .then((text) => expect(text).to.equal(departureTime));
+                .then((text) => expect(text.trim()).to.equal(departureTime));
 
-            expect(element(by.css('.rp-reisadvies__main .rp-headerPrice__amount')).getText())
-                .to.eventually.equal(amount);
-            expect(element(by.css('.rp-reisadvies__main .rp-Stop__departureTrack')).getText())
-                .to.eventually.contains(platform);
-            return expect(element(by.css('.rp-reisadvies__main .rp-headerPrice__label')).getText())
-                .to.eventually.contains(travelClass);
+            element(by.css('.rp-reisadvies__main .rp-headerPrice__amount')).getText()
+                .then((price) => expect(price.trim()).to.contains(amount));
+            element(by.css('.rp-reisadvies__main .rp-Stop__departureTrack')).getText()
+                .then((departureTrack) => expect(departureTrack.trim()).to.contains(platform));
+            return element(by.css('.rp-reisadvies__main .rp-headerPrice__label')).getText()
+                .then((priceClass) => expect(priceClass.trim()).to.contains(travelClass));
         });
 });

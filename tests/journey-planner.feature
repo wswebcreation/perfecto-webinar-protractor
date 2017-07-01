@@ -8,8 +8,8 @@ Feature: NS Journey planner
     @next-train
     Scenario: Eran looks for the next train
         Given Eran opens the journey planner from the NS
-        When he plans a journey from Utrecht Centraal to Amsterdam Centraal on 28 July at 21:00
-        Then he should see the trains departing at 20:53, 21:08, 21:23, 21:32, 21:39
+        When he plans a journey from Amsterdam Airport to Utrecht Centraal on 28 July at 21:00
+        Then he should see the trains departing at 20:48, 21:00, 21:18, 21:48, 22:18
 
     @verify-details
     Scenario: Eran verifies his preselected train details
