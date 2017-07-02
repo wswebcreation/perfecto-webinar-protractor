@@ -49,34 +49,20 @@ exports.config = {
                 environment: 'perfecto'
             }
         },
-        // {
-        //     browserName: 'Edge',
-        //     browserVersion: '14',
-        //     location: 'NA-US-BOS',
-        //     platformName: 'Windows',
-        //     platformVersion: '10',
-        //     resolution: '1440x900',
-        //     password: perfectoConfig.password,
-        //     user: perfectoConfig.user,
-        //     // Custom
-        //     deviceProperties: {
-        //         environment: 'perfecto'
-        //     }
-        // },
-        // {
-        //     browserName: 'Internet Explorer',
-        //     browserVersion: '11',
-        //     location: 'US East',
-        //     platformName: 'Windows',
-        //     platformVersion: '10',
-        //     resolution: '1440x900',
-        //     password: perfectoConfig.password,
-        //     user: perfectoConfig.user,
-        //     // Custom
-        //     deviceProperties: {
-        //         environment: 'perfecto'
-        //     }
-        // },
+        {
+            browserName: 'Internet Explorer',
+            browserVersion: '11',
+            location: 'US East',
+            platformName: 'Windows',
+            platformVersion: '8.1',
+            resolution: '1440x900',
+            password: perfectoConfig.password,
+            user: perfectoConfig.user,
+            // Custom
+            deviceProperties: {
+                environment: 'perfecto'
+            }
+        },
         {
             browserName: 'Safari',
             browserVersion: '10',
