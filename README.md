@@ -3,6 +3,10 @@ This repo holds the protractor project that is used during the webinar of the 27
 
 The master branch will hold the default setup
 
+This branch will hold the same setup as the master branch, but only with tasks and page objects.
+
+> **Currently only the journey planner bar has tasks and page objects. The travel advice will be added later.**
+
 ## Install project
 Clone the project to your local machine with 
 
