@@ -9,7 +9,7 @@ defineSupportCode(({Given, When, Then}) => {
             .then(() => helpers.acceptCookies());
     });
 
-    When('he plans a journey from {fromStration} to {toStation} on {date} at {time}', (fromStation, toStation, date, time) => {
+    When('he plans a journey from {fromStation} to {toStation} on {date} at {time}', (fromStation, toStation, date, time) => {
         return planJourney({
             from: fromStation,
             to: toStation,
