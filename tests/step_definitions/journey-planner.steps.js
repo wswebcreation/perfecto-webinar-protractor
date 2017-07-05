@@ -1,16 +1,20 @@
 const {defineSupportCode} = require('cucumber');
 const helpers = require('../helpers/helpers');
 
-const planJourney = require('../page-objects/journey-planner/planJourney');
+const PlanJourney = require('../page-objects/journey-planner/plan-journey');
+const TravelAdvice = require('../page-objects/travel-advice/travel-advice');
 
 defineSupportCode(({Given, When, Then}) => {
+    const planJourney = new PlanJourney();
+    const travelAdvice = new TravelAdvice();
+
     Given('Eran opens the journey planner from the NS', () => {
         return browser.get('en/journeyplanner/#/')
             .then(() => helpers.acceptCookies());
     });
 
     When('he plans a journey from {fromStation} to {toStation} on {date} at {time}', (fromStation, toStation, date, time) => {
-        return planJourney({
+        return planJourney.fromToOnDateAndTime({
             from: fromStation,
             to: toStation,
             on: date,
@@ -19,35 +23,17 @@ defineSupportCode(({Given, When, Then}) => {
     });
 
     Then('he should see the trains departing at {suggestedTimes}', (suggestedTimes) => {
-        const actualLeaveTimes = [];
-
-        return element.all(by.repeater('mogelijkheid in reisadviesCtrl.advies.reismogelijkheden track by mogelijkheid.hash'))
-            .each((travelPossibility) => {
-                return travelPossibility.element(by.css('.rp-mogelijkheidTijd.rp-vertrekTijd')).getText()
-                    .then((departureTime) => {
-                        actualLeaveTimes.push(departureTime.trim());
-                    });
-            })
-            .then(() => {
-                return expect(actualLeaveTimes.join(', ')).to.equal(suggestedTimes);
-            });
+        return expect(travelAdvice.getSuggestedTravelTimes()).to.eventually.equal(suggestedTimes);
     });
 
     Then('he should see the preselected journey will leave at {departureTime} from platform {platform} and costs € {amount} for a single way {travelClass} class ticket',
         (departureTime, platform, amount, travelClass) => {
-            element.all(by.repeater('mogelijkheid in reisadviesCtrl.advies.reismogelijkheden track by mogelijkheid.hash'))
-                .filter((travelPossibility) => {
-                    return travelPossibility.element(by.tagName('a')).getAttribute('class')
-                        .then((classes) => classes.indexOf('rp-mogelijkheid--selected') > -1);
-                })
-                .first().element(by.css('.rp-mogelijkheidTijd.rp-vertrekTijd')).getText()
-                .then((text) => expect(text.trim()).to.equal(departureTime));
-
-            element(by.css('.rp-reisadvies__main .rp-headerPrice__amount')).getText()
-                .then((price) => expect(price.trim()).to.contains(amount));
-            element(by.css('.rp-reisadvies__main .rp-Stop__departureTrack')).getText()
-                .then((departureTrack) => expect(departureTrack.trim()).to.contains(platform));
-            return element(by.css('.rp-reisadvies__main .rp-headerPrice__label')).getText()
-                .then((priceClass) => expect(priceClass.trim()).to.contains(travelClass));
+            return travelAdvice.getSelectedDepartureTimePlatformPriceTravelClass()
+                .then((result) => {
+                    expect(result.departureTime).to.equal(departureTime);
+                    expect(result.departurePlatform).to.contains(platform);
+                    expect(result.price).to.contains(amount);
+                    return expect(result.travelClass).to.contains(travelClass);
+                });
         });
 });

@@ -1,42 +1,24 @@
 'use strict';
-const datePicker = require('./datepicker.page');
+const DatePicker = require('./datepicker.page');
 
-const TIME_BUTTON = '.rp-Reisplanbalk__buttonInput';
-const TIME_LIST_ITEM = '.rp-Timepicker__times .list__item';
-const SUBMIT = '.rp-Reisplanbalk__submit';
+const TIME_BUTTON_SELECTOR = '.rp-Reisplanbalk__buttonInput';
+const TIME_LIST_ITEM_SELECTOR = '.rp-Timepicker__times .list__item';
+const SUBMIT_SELECTOR = '.rp-Reisplanbalk__submit';
 
 module.exports = function travelDetails() {
-    return {
-        setDate: setDate,
-        setTime: setTime,
-        submit: submit
+    this.setDate = (date) => {
+        const datePicker = new DatePicker();
+        return datePicker.setDate(date);
     };
 
-    /**
-     * Select the date
-     * @param {string} date The date to be selected, string needs to be like {01 June}
-     */
-    function setDate(date) {
-        return datePicker.setDate(date);
-    }
-
-    /**
-     * Select the time
-     * @param {string} time The time in format {hh:mm}
-     */
-    function setTime(time) {
+    this.setTime = (time) => {
         if (!/\d{2}:\d{2}/.test(time)) {
             console.warn(`\nWARNING: 'setTime(${time})' failed. ${time} is not a valid value, it should be [01:01] | [13:25]\n`);
         }
 
-        $(TIME_BUTTON).click();
-        return element(by.cssContainingText(TIME_LIST_ITEM, time)).click();
-    }
+        $(TIME_BUTTON_SELECTOR).click();
+        return element(by.cssContainingText(TIME_LIST_ITEM_SELECTOR, time)).click();
+    };
 
-    /**
-     * Submit the journey planner form
-     */
-    function submit() {
-        return $(SUBMIT).click();
-    }
-}();
+    this.submit = () => $(SUBMIT_SELECTOR).click();
+};

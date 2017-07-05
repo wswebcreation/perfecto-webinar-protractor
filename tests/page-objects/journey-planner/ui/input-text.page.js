@@ -10,7 +10,7 @@
  * - css string provided as selector param: returns an instance with the provided selector
  * - an elementFinder object provided as selector param: returns an instance with the provided ElementFinder
  */
-module.exports = function InputTextPageObject(selector) {
+module.exports = function InputTextPageComponent(selector) {
     const inputSelector = selector || '[type="text"]';
 
     this.component = typeof selector === 'object' ? selector : $(inputSelector);
