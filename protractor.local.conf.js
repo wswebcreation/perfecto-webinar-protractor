@@ -1,5 +1,6 @@
 const path = require('path');
 const chai = require('chai');
+const fs = require('fs-extra');
 chai.use(require('chai-as-promised'));
 
 exports.config = {
@@ -45,6 +46,16 @@ exports.config = {
 
     // Allows cucumber to handle the 199 exception and record it appropriately
     ignoreUncaughtExceptions: true,
+
+    /**
+     * Empty local folders before all tests are started
+     */
+    beforeLaunch: () => {
+        console.log(`\n===========================================================================`);
+        console.log(`\n  The directory './tmp', which holds failed screenshots is being removed.\n`);
+        console.log(`===========================================================================\n`);
+        fs.removeSync('./.tmp');
+    },
 
     /**
      * CucumberJS + Protractor + Perfecto preparation

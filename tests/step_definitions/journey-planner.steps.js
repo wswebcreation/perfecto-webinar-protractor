@@ -1,11 +1,10 @@
 const {defineSupportCode} = require('cucumber');
 const helpers = require('../helpers/helpers');
-
-const PlanJourney = require('../page-objects/journey-planner/plan-journey');
+const Journey = require('../page-objects/journey-planner/plan-journey');
 const TravelAdvice = require('../page-objects/travel-advice/travel-advice');
 
 defineSupportCode(({Given, When, Then}) => {
-    const planJourney = new PlanJourney();
+    const journey = new Journey();
     const travelAdvice = new TravelAdvice();
 
     Given('Eran opens the journey planner from the NS', () => {
@@ -14,7 +13,7 @@ defineSupportCode(({Given, When, Then}) => {
     });
 
     When('he plans a journey from {fromStation} to {toStation} on {date} at {time}', (fromStation, toStation, date, time) => {
-        return planJourney.fromToOnDateAndTime({
+        return journey.plan({
             from: fromStation,
             to: toStation,
             on: date,

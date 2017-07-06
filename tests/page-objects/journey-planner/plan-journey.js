@@ -1,17 +1,15 @@
 'use strict';
-const Locations = require('./ui/locations.page');
-const TravelDetails = require('./ui/travel-details.page');
+const JourneyPlanDetails = require('./ui/journey-plan-details.page');
 
 module.exports = function planJourneyTasks() {
-    const locations = new Locations();
-    const travelDetails = new TravelDetails();
+    const journey = new JourneyPlanDetails();
 
     /**
      * Plan a journey based on the from, to, on and at values
      *
      * @example:
      * <pre>
-     *      const journeyActions = {
+     *      const journeyData = {
      *          from: 'the from station',
      *          to: 'the to station'
      *          on: 'the date {04 July}',
@@ -19,27 +17,27 @@ module.exports = function planJourneyTasks() {
      *      }
      * </pre>
      */
-    this.fromToOnDateAndTime = (journeyActions) => {
+    this.plan = (journeyData) => {
         // All actions are promises, so push them in a promise container
         let promises = [];
 
-        if (journeyActions.from) {
-            promises.push(locations.departureStationField().setValue(journeyActions.from));
+        if (journeyData.from) {
+            promises.push(journey.departureStation().setValue(journeyData.from));
         }
 
-        if (journeyActions.to) {
-            promises.push(locations.arrivalStationField().setValue(journeyActions.to));
+        if (journeyData.to) {
+            promises.push(journey.arrivalStation().setValue(journeyData.to));
         }
 
-        if (journeyActions.on) {
-            promises.push(travelDetails.setDate(journeyActions.on));
+        if (journeyData.on) {
+            promises.push(journey.setDate(journeyData.on));
         }
 
-        if (journeyActions.at) {
-            promises.push(travelDetails.setTime(journeyActions.at));
+        if (journeyData.at) {
+            promises.push(journey.setTime(journeyData.at));
         }
 
-        promises.push(travelDetails.submit());
+        promises.push(journey.submitJourney());
 
         // Resolve all promises
         return Promise.all(promises);

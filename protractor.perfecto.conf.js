@@ -1,5 +1,6 @@
 const path = require('path');
 const chai = require('chai');
+const fs = require('fs-extra');
 const perfectoConfig = require('./perfecto.config.json');
 const Reporting = require('perfecto-reporting');
 chai.use(require('chai-as-promised'));
@@ -35,34 +36,34 @@ exports.config = {
                 environment: 'perfecto'
             }
         },
-        {
-            browserName: 'Firefox',
-            browserVersion: '54',
-            location: 'EU Frankfurt',
-            platformName: 'Windows',
-            platformVersion: '10',
-            resolution: '1440x900',
-            password: perfectoConfig.password,
-            user: perfectoConfig.user,
-            // Custom
-            deviceProperties: {
-                environment: 'perfecto'
-            }
-        },
-        {
-            browserName: 'Internet Explorer',
-            browserVersion: '11',
-            location: 'US East',
-            platformName: 'Windows',
-            platformVersion: '8.1',
-            resolution: '1440x900',
-            password: perfectoConfig.password,
-            user: perfectoConfig.user,
-            // Custom
-            deviceProperties: {
-                environment: 'perfecto'
-            }
-        },
+        // {
+        //     browserName: 'Firefox',
+        //     browserVersion: '54',
+        //     location: 'EU Frankfurt',
+        //     platformName: 'Windows',
+        //     platformVersion: '10',
+        //     resolution: '1440x900',
+        //     password: perfectoConfig.password,
+        //     user: perfectoConfig.user,
+        //     // Custom
+        //     deviceProperties: {
+        //         environment: 'perfecto'
+        //     }
+        // },
+        // {
+        //     browserName: 'Internet Explorer',
+        //     browserVersion: '11',
+        //     location: 'US East',
+        //     platformName: 'Windows',
+        //     platformVersion: '8.1',
+        //     resolution: '1440x900',
+        //     password: perfectoConfig.password,
+        //     user: perfectoConfig.user,
+        //     // Custom
+        //     deviceProperties: {
+        //         environment: 'perfecto'
+        //     }
+        // },
         {
             browserName: 'Safari',
             browserVersion: '10',
@@ -98,6 +99,16 @@ exports.config = {
 
     // Allows cucumber to handle the 199 exception and record it appropriately
     ignoreUncaughtExceptions: true,
+
+    /**
+     * Empty local folders before all tests are started
+     */
+    beforeLaunch: () => {
+        console.log(`\n===========================================================================`);
+        console.log(`\n  The directory './tmp', which holds failed screenshots is being removed.\n`);
+        console.log(`===========================================================================\n`);
+        fs.removeSync('./.tmp');
+    },
 
     /**
      * CucumberJS + Protractor + Perfecto preparation

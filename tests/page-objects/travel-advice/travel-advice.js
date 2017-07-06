@@ -10,19 +10,39 @@ module.exports = function travelAdvice() {
     const travelDetails = new TravelDetails();
     const travelPossibilities = new TravelPossibilities();
 
+    /**
+     * Get the suggested travel times
+     *
+     * @return {Promise<string>} like `20:48, 21:00, 21:18, 21:48, 22:18`
+     */
     this.getSuggestedTravelTimes = () => {
-        const actualLeaveTimes = [];
+        const suggestedTravelTimes = [];
 
         return travelPossibilities.getAllPossibilities()
             .each((possibility) => {
                 return new TravelPossibility(possibility).getDepartureTime()
-                    .then((departureTime) => {
-                        actualLeaveTimes.push(departureTime.trim());
+                    .then((suggestedDepartureTime) => {
+                        suggestedTravelTimes.push(suggestedDepartureTime.trim());
                     });
             })
-            .then(() => actualLeaveTimes.join(', '));
+            .then(() => suggestedTravelTimes.join(', '));
     };
 
+    /**
+     * Get the selected departure time, platform, price and travel class
+     *
+     * @return {Promise<object>} When resolved it looks like
+     *
+     * @example
+     * <pre>
+     *  {
+     *       departureTime: '17:00',
+     *       departurePlatform: 'Platform 1',
+     *       price: '€ 16.80',
+     *       travelClass: 'Single way, 2nd class'
+     *  }
+     * </pre>
+     */
     this.getSelectedDepartureTimePlatformPriceTravelClass = () => {
         const selectedDepartureTimePlatformPriceTravelClass = {
             departureTime: '',
@@ -47,7 +67,6 @@ module.exports = function travelAdvice() {
             .then((priceLabel) => {
                 selectedDepartureTimePlatformPriceTravelClass.travelClass = priceLabel;
                 return selectedDepartureTimePlatformPriceTravelClass;
-
             });
     };
 };

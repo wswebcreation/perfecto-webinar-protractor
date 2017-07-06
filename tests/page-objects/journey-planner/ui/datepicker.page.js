@@ -8,22 +8,45 @@ const DATEPICKER_DAY_SELECTOR_SELECTOR = `${DATEPICKER_CONTAINER_SELECTOR} td`;
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 /**
- * datepicker page component
+ * The datepicker page component.
+ *
+ * For now it can only set the date, we can now easily add a method to retrieve the (pre)selected date with
+ *  `this.getDate = () => { // code implementation }`
  */
-module.exports = function datePickerPageComponent() {
+module.exports = function DatepickerPageComponent() {
+    /**
+     * Set the date by first opening the datepicker, selecting the month and day
+     *
+     * @param {string} time The time that needs to be selected, format {01 June}
+     * @return {Promise.<void>}
+     */
     this.setDate = (date) => {
         let day, month;
         [day, month] = date.split(' ');
 
-        $(DATE_BUTTON_SELECTOR).click();
+        _openDatepicker();
         _setMonth(month);
         return _setDay(day);
     };
 };
 
 /**
+ * Open the datepicker
+ *
+ * @return {Promise<void>}
+ *
+ * @private
+ */
+function _openDatepicker(){
+    return $(DATE_BUTTON_SELECTOR).click();
+}
+
+/**
  * Set the month in the datepicker, format is {June}
+ *
  * @param {string} month The month that needs to be selected
+ * @return {Promise<void>}
+ *
  * @private
  */
 function _setMonth(month) {
@@ -59,7 +82,10 @@ function _setMonth(month) {
 
 /**
  * Set the day in the datepicker
+ *
  * @param {string} day The day that needs to be selected, format is {01}
+ * @return {Promise<void>}
+ *
  * @private
  */
 function _setDay(day) {
