@@ -31,4 +31,4 @@ Before you are able to run against the Perfecto cloud add a file to your project
     }
 ```
 
-If added you can run the tests with `npom run test.perfecto`
+If added you can run the tests with `npm run test.perfecto`
