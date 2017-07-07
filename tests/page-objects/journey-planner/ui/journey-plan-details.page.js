@@ -34,7 +34,7 @@ module.exports = function JourneyDetails() {
      */
     this.setDate = (date) => {
         const datepicker = new Datepicker();
-        return datepicker.setDate(date);
+        return datepicker.setValue(date);
     };
 
     /**
@@ -46,7 +46,7 @@ module.exports = function JourneyDetails() {
      */
     this.setTime = (time) => {
         const timepicker = new Timepicker();
-        return timepicker.setTime(time);
+        return timepicker.setValue(time);
     };
 
     /**

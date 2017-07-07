@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "This repo holds the protractor project that is used during the webinar of the 27th of July 2017",
   "scripts": {
+    "postinstall": "webdriver-manager update",
     "test.local": "protractor protractor.local.conf.js",
     "test.perfecto": "protractor protractor.perfecto.conf.js"
   },

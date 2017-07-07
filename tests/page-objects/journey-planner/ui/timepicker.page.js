@@ -16,7 +16,7 @@ module.exports = function TimePickerPageComponent() {
      * @param {string} time The time that needs to be selected, format is [01:01] | [13:25]
      * @return {Promise.<void>}
      */
-    this.setTime = (time) => {
+    this.setValue = (time) => {
         _openTimepicker();
         return _setTime(time);
     };
@@ -43,7 +43,7 @@ function _openTimepicker() {
  */
 function _setTime(time) {
     if (!/\d{2}:\d{2}/.test(time)) {
-        console.warn(`\nWARNING: 'setTime(${time})' failed. ${time} is not a valid value, it should be [01:01] | [13:25]\n`);
+        console.warn(`\nWARNING: 'timepicker.setValue(${time})' failed. ${time} is not a valid value, it should be [01:01] | [13:25]\n`);
     }
 
     return element(by.cssContainingText(TIME_LIST_ITEM_SELECTOR, time)).click();
