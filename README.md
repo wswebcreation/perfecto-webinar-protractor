@@ -3,6 +3,11 @@ This repo holds the protractor project that is used during the webinar of the 27
 
 The master branch will hold the default setup
 
+## Checking your environment
+Before cloning and installing the project make sure you have NodeJS installed on your machine. This needs to be at least version `6.9.x`.
+Execute the following command in a terminal to see the version of NodeJS is running `node -v`. If it is lower than `6.9.x` you should upgrade NodeJS
+
+
 ## Install project
 Clone the project to your local machine with 
 
@@ -18,6 +23,8 @@ When the project is cloned install all the dependencies with
 ```
 
 ## Run local
+Protractor needs to have a selenium server running locally to connect to the browser. This setup uses `directConnect` and means that no separate selenium server needs to be started. This is all done out of the box.
+ 
 To run the tests local execute `npm run test.local`
 
 ## Run on the perfecto cloud
