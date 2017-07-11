@@ -2,10 +2,7 @@
  * Require the default config
  */
 const config = require('./config-helpers/protractor.shared.conf').config;
-const chai = require('chai');
 const protractorImageComparison = require('protractor-image-comparison');
-
-chai.use(require('chai-as-promised'));
 
 /**
  * Local specific
@@ -35,9 +32,6 @@ config.capabilities = {
  * CucumberJS + Protractor + local preparation
  */
 config.onPrepare = () => {
-    // Add the expect for CucumberJS, because it has no default assertion library
-    global.expect = chai.expect;
-
     // For image comparison
     browser.protractorImageComparison = new protractorImageComparison(
         {

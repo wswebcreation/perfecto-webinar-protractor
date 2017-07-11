@@ -25,9 +25,11 @@ exports.config = {
         path.resolve(process.cwd(), './tests/**/*.feature')
     ],
     cucumberOpts: {
+        compiler: "ts:ts-node/register",
         require: [
             path.resolve(process.cwd(), './config-helpers/*.js'),
-            path.resolve(process.cwd(), './tests/**/*.steps.js'),
+            path.resolve(process.cwd(), './config-helpers/*.ts'),
+            path.resolve(process.cwd(), './tests/**/*.steps.ts'),
         ],
         format: 'pretty',
         tags: 'not @image-comparison'

@@ -1,6 +1,7 @@
-'use strict';
+import { Capabilities } from 'selenium-webdriver';
+import { browser } from 'protractor';
+import { defineSupportCode } from 'cucumber';
 
-const {defineSupportCode} = require('cucumber');
 const Cucumber = require('cucumber');
 const jsonFormatter = new Cucumber.JsonFormatter();
 const fs = require('fs-extra');
@@ -16,17 +17,17 @@ defineSupportCode(({registerListener}) => {
     /**
      * Generate and save the report json files
      */
-    function _generateAndSaveJsonFile() {
-        jsonFormatter.log = function (report) {
-            return browser.getCapabilities()
-                .then((capabilities) => _adjustAndSaveJsonFile(capabilities, report));
+    async function _generateAndSaveJsonFile(): Promise<void> {
+        jsonFormatter.log = async function (report: string) {
+            const capabilities = await browser.getCapabilities();
+            await _adjustAndSaveJsonFile(capabilities, report);
         };
     }
 
     /**
      * Adjust and save the json files
      */
-    function _adjustAndSaveJsonFile(capabilities, report) {
+    function _adjustAndSaveJsonFile(capabilities: Capabilities, report: string) {
         const browserName = capabilities.get('browserName');
         const jsonReport = JSON.parse(report);
 
@@ -44,7 +45,7 @@ defineSupportCode(({registerListener}) => {
             };
             const snapshotPath = path.join(projectRoot, '.tmp/json-output');
             const featureName = jsonReport[0].name.replace(/\s+/g, '_').replace(/\W/g, '').toLowerCase() || 'noName';
-            const filePath = path.join(snapshotPath, `${featureName}.${browserName.toLowerCase()}_${Date.now()}.json`);
+            const filePath = path.join(snapshotPath, `${featureName}.${browserName}_${Date.now()}.json`);
 
             jsonReport[0].metadata = metadata;
 

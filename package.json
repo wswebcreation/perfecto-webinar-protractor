@@ -24,6 +24,10 @@
   },
   "homepage": "https://github.com/wswebcreation/perfecto-webinar-protractor#readme",
   "devDependencies": {
+    "@types/chai": "^4.0.1",
+    "@types/chai-as-promised": "0.0.31",
+    "@types/cucumber": "^2.0.1",
+    "@types/fs-extra": "^3.0.3",
     "chai": "^4.0.2",
     "chai-as-promised": "^7.0.0",
     "cucumber": "^2.3.1",
@@ -32,6 +36,9 @@
     "perfecto-reporting": "^2.0.0",
     "protractor": "^5.1.2",
     "protractor-cucumber-framework": "^3.1.2",
-    "protractor-image-comparison": "^1.2.5"
+    "protractor-image-comparison": "^1.2.5",
+    "ts-node": "^3.2.0",
+    "tslint": "^5.5.0",
+    "typescript": "^2.4.1"
   }
 }

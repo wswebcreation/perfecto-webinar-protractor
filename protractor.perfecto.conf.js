@@ -4,11 +4,7 @@
 const config = require('./config-helpers/protractor.shared.conf').config;
 const perfectoConfig = require('./perfecto.config.json');
 const Reporting = require('perfecto-reporting');
-const chai = require('chai');
 const protractorImageComparison = require('protractor-image-comparison');
-
-chai.use(require('chai-as-promised'));
-
 
 /**
  * Perfecto specific
@@ -96,9 +92,6 @@ config.multiCapabilities = [
  * CucumberJS + Protractor + Perfecto preparation
  */
 config.onPrepare = () => {
-    // Add the expect for CucumberJS, because it has no default assertion library
-    global.expect = chai.expect;
-
     // Add the Perfecto reporting
     browser.reportingClient = new Reporting.Perfecto.PerfectoReportingClient(
         new Reporting.Perfecto.PerfectoExecutionContext({
