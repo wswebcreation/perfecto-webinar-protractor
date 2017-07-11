@@ -11,7 +11,7 @@ exports.config = {
     /**
      * Protractor specific
      */
-    allScriptsTimeout: 25000,
+    allScriptsTimeout: 60000,
     baseUrl: 'http://www.ns.nl/',
     disableChecks: true,
     maxSessions: 10,

@@ -46,4 +46,11 @@ function PossibilityPageObject(elementFinder) {
      * @return {Promise<string>} Returns a trimmed string
      */
     this.getTravelTime = () => elementFinder.$(TRAVEL_TIME_SELECTOR).getText().then((text) => text.trim());
+
+    /**
+     * Open the travel
+     *
+     * @return {Promise<void>}
+     */
+    this.open = () => elementFinder.click();
 }

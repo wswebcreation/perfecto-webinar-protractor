@@ -1,9 +1,10 @@
 'use strict';
 
 const TRAVEL_DETAILS_CONTAINER = 'reisdetails';
-const DEPARTURE_PLATFORM_SELECTOR = `{TRAVEL_DETAILS_CONTAINER} .rp-Stop__departureTrack`;
-const PRICE_SELECTOR = `{TRAVEL_DETAILS_CONTAINER} .rp-headerPrice__amount`;
-const PRICE_LABEL_SELECTOR = `{TRAVEL_DETAILS_CONTAINER} .rp-headerPrice__label`;
+const DEPARTURE_PLATFORM_SELECTOR = `${TRAVEL_DETAILS_CONTAINER} .rp-Stop__departureTrack`;
+const DEPARTURE_TIME_SELECTOR = `${TRAVEL_DETAILS_CONTAINER} .rp-Stop__departureTime`;
+const PRICE_SELECTOR = `${TRAVEL_DETAILS_CONTAINER} .rp-headerPrice__amount`;
+const PRICE_LABEL_SELECTOR = `${TRAVEL_DETAILS_CONTAINER} .rp-headerPrice__label`;
 
 module.exports = TravelDetailsPageObject;
 
@@ -19,6 +20,13 @@ function TravelDetailsPageObject() {
      * @return {Promise<ElementFinder>}
      */
     this.getTravelDetailsContainer = () => $(TRAVEL_DETAILS_CONTAINER);
+
+    /**
+     * Get the departure time text, it will return a promise that resolves in a trimmed string
+     *
+     * @return {Promise<string>} Returns a trimmed string
+     */
+    this.getDepartureTime = () => $(DEPARTURE_TIME_SELECTOR).getText().then((text) => text.trim());
 
     /**
      * Get the departure platform text, it will return a promise that resolves in a trimmed string

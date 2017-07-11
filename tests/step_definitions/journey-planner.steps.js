@@ -2,12 +2,14 @@ const {defineSupportCode} = require('cucumber');
 const helpers = require('../helpers/helpers');
 const Journey = require('../page-objects/journey-planner/plan-journey');
 const TravelAdvice = require('../page-objects/travel-advice/travel-advice');
+const TravelPossibilities = require('../page-objects/travel-advice/ui/travel-possibilities.page');
 const TravelDetails = require('../page-objects/travel-advice/ui/travel-details.page');
 
 defineSupportCode(({Given, When, Then}) => {
     const journey = new Journey();
     const travelAdvice = new TravelAdvice();
     const travelDetails = new TravelDetails();
+    const travelPossibilities = new TravelPossibilities();
 
     Given('{someone} opens the journey planner from the NS', (someone) => {
         return browser.get('en/journeyplanner/#/')
@@ -45,6 +47,11 @@ defineSupportCode(({Given, When, Then}) => {
 
     Then('he can verify the {screenshotType} result with a baseline', (screenshotType) => {
         if (screenshotType === 'travel details') {
+            // The behaviour on mobile is different. We first need to open the travel before we can see the details
+            if (browser.deviceProperties.deviceType === 'mob') {
+                travelPossibilities.getSelectedPossibility().open();
+            }
+
             // First always scroll the element into the view, if not then it will fail
             helpers.scrollElementIntoView(travelDetails.getTravelDetailsContainer());
 
@@ -59,7 +66,7 @@ defineSupportCode(({Given, When, Then}) => {
 
             // Just call the check method, add a name how you want the screenshot to be named and compare the result
             return expect(
-                browser.protractorImageComparison.checkFullPageScreen('fullpage')
+                browser.protractorImageComparison.checkFullPageScreen('fullpage', {ignoreAntialiasing: true})
             ).to.eventually.equal(0);
         }
     });

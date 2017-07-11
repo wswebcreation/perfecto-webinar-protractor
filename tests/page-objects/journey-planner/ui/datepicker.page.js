@@ -4,7 +4,7 @@ const DATE_BUTTON_SELECTOR = '.rp-DateButton';
 const DATEPICKER_CONTAINER_SELECTOR = '[ng-model="datepickerCtrl.date"]';
 const DATEPICKER_MONTH_SELECTOR = `${DATEPICKER_CONTAINER_SELECTOR} .uib-title`;
 const DATEPICKER_MONTH_FORWARD_SELECTOR = `${DATEPICKER_CONTAINER_SELECTOR} .uib-right`;
-const DATEPICKER_DAY_SELECTOR_SELECTOR = `${DATEPICKER_CONTAINER_SELECTOR} td`;
+const DATEPICKER_DAY_SELECTOR_SELECTOR = `${DATEPICKER_CONTAINER_SELECTOR} td button`;
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 /**

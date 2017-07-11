@@ -52,7 +52,11 @@ module.exports = function travelAdvice() {
             travelClass: ''
         };
 
-        return travelPossibilities.getSelectedPossibility().getDepartureTime()
+        if(browser.deviceProperties.deviceType === 'mob'){
+            travelPossibilities.getSelectedPossibility().open();
+        }
+
+        return travelDetails.getDepartureTime()
             .then((departureTime) => {
                 selectedDepartureTimePlatformPriceTravelClass.departureTime = departureTime;
                 return travelDetails.getDeparturePlatform();

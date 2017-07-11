@@ -1,7 +1,7 @@
 'use strict';
 
 const TIME_BUTTON_SELECTOR = '.rp-Reisplanbalk__buttonInput';
-const TIME_LIST_ITEM_SELECTOR = '.rp-Timepicker__times .list__item';
+const TIME_LIST_ITEM_SELECTOR = '.rp-Timepicker__times .list__item button';
 
 /**
  * The timepicker page component.

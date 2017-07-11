@@ -65,6 +65,30 @@ config.multiCapabilities = [
                 version: '10.12.5'
             }
         }
+    },
+    {
+        browserName: 'Safari',
+        browserVersion: '10.2.1',
+        location: 'NA-US-BOS',
+        model: 'iPhone-7 Plus',
+        platformName: 'iOS',
+        platformVersion: '10.2.1',
+        password: perfectoConfig.password,
+        user: perfectoConfig.user,
+        // Custom
+        deviceProperties: {
+            browser: {
+                name: 'safari',
+                version: '10'
+            },
+            device: 'Apple iPhone 7 Plus',
+            deviceType: 'mob',
+            environment: 'perfecto',
+            platform: {
+                name: 'iOS',
+                version: '10.2.1'
+            }
+        }
     }
 ];
 
@@ -85,7 +109,7 @@ config.onPrepare = () => {
     // For image comparison
     browser.protractorImageComparison = new protractorImageComparison(
         {
-            autoSaveBaseline: true,
+            autoSaveBaseline: false,
             baselineFolder: 'imageComparison/baseline',
             screenshotPath: 'imageComparison/actualScreenshots'
         }
@@ -99,7 +123,11 @@ config.onPrepare = () => {
         .then((processedConfig) => {
             browser.browserName = processedConfig.capabilities.browserName;
             browser.deviceProperties = processedConfig.capabilities.deviceProperties;
-            return browser.driver.manage().window().setSize(1366, 768);
+            if(browser.deviceProperties.deviceType === 'desk'){
+                return browser.driver.manage().window().setSize(1366, 768);
+            } else{
+                return Promise.resolve();
+            }
         });
 };
 
