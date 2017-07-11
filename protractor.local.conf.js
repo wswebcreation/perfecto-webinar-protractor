@@ -1,77 +1,61 @@
-const path = require('path');
+/**
+ * Require the default config
+ */
+const config = require('./config-helpers/protractor.shared.conf').config;
 const chai = require('chai');
-const fs = require('fs-extra');
+const protractorImageComparison = require('protractor-image-comparison');
+
 chai.use(require('chai-as-promised'));
 
-exports.config = {
-    /**
-     * Protractor specific
-     */
-    allScriptsTimeout: 25000,
-    baseUrl: 'http://www.ns.nl/',
-    disableChecks: true,
-    maxSessions: 10,
-
-    /**
-     * Local specific
-     */
-    capabilities: {
-        browserName: 'chrome',
-        chromeOptions: {
-            args: ['disable-infobars']
+/**
+ * Local specific
+ */
+config.capabilities = {
+    browserName: 'chrome',
+    chromeOptions: {
+        args: ['disable-infobars']
+    },
+    // Custom
+    deviceProperties: {
+        browser: {
+            name: 'chrome',
+            version: 'latest'
         },
-        // Custom
-        deviceProperties: {
-            environment: 'local'
+        device: 'Local development machine',
+        deviceType: 'desk',
+        environment: 'local',
+        platform: {
+            name: 'OSX',
+            version: '10.12.5'
         }
-    },
-
-    /**
-     * CucumberJS specific
-     */
-    framework: 'custom',
-    frameworkPath: require.resolve('protractor-cucumber-framework'),
-    specs: [
-        path.resolve(process.cwd(), './tests/**/*.feature')
-    ],
-    cucumberOpts: {
-        require: [
-            path.resolve(process.cwd(), './config-helpers/*.js'),
-            path.resolve(process.cwd(), './tests/**/*.steps.js'),
-        ],
-        format: 'pretty',
-        tags: ''
-    },
-
-    // Allows cucumber to handle the 199 exception and record it appropriately
-    ignoreUncaughtExceptions: true,
-
-    /**
-     * Empty local folders before all tests are started
-     */
-    beforeLaunch: () => {
-        console.log(`\n===========================================================================`);
-        console.log(`\n  The directory './tmp', which holds failed screenshots is being removed.\n`);
-        console.log(`===========================================================================\n`);
-        fs.removeSync('./.tmp');
-    },
-
-    /**
-     * CucumberJS + Protractor + Perfecto preparation
-     */
-    onPrepare: () => {
-        // Add the expect for CucumberJS, because it has no default assertion library
-        global.expect = chai.expect;
-
-        /**
-         * - get the capabilities of each driver
-         * - set the screensize
-         */
-        return browser.getProcessedConfig()
-            .then((processedConfig) => {
-                browser.browserName = processedConfig.capabilities.browserName;
-                browser.deviceProperties = processedConfig.capabilities.deviceProperties;
-                return browser.driver.manage().window().setSize(1366, 768);
-            });
     }
 };
+
+/**
+ * CucumberJS + Protractor + local preparation
+ */
+config.onPrepare = () => {
+    // Add the expect for CucumberJS, because it has no default assertion library
+    global.expect = chai.expect;
+
+    // For image comparison
+    browser.protractorImageComparison = new protractorImageComparison(
+        {
+            baselineFolder: 'imageComparison/baseline',
+            screenshotPath: 'imageComparison/actualScreenshots'
+        }
+    );
+
+    /**
+     * - get the capabilities of each driver
+     * - set the screensize
+     */
+    return browser.getProcessedConfig()
+        .then((processedConfig) => {
+            browser.browserName = processedConfig.capabilities.browserName;
+            browser.deviceProperties = processedConfig.capabilities.deviceProperties;
+            return browser.driver.manage().window().setSize(1366, 768);
+        });
+};
+
+exports.config = config;

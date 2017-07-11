@@ -3,3 +3,4 @@ node_modules/
 perfecto.config.json
 *.log
 ./tmp
+imageComparison/

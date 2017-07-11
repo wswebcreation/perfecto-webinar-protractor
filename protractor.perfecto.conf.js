@@ -1,138 +1,106 @@
-const path = require('path');
-const chai = require('chai');
-const fs = require('fs-extra');
+/**
+ * Require the default config
+ */
+const config = require('./config-helpers/protractor.shared.conf').config;
 const perfectoConfig = require('./perfecto.config.json');
 const Reporting = require('perfecto-reporting');
+const chai = require('chai');
+const protractorImageComparison = require('protractor-image-comparison');
+
 chai.use(require('chai-as-promised'));
 
-exports.config = {
-    /**
-     * Protractor specific
-     */
-    allScriptsTimeout: 25000,
-    baseUrl: 'http://www.ns.nl/',
-    disableChecks: true,
-    maxSessions: 10,
 
-    /**
-     * Perfecto specific
-     */
-    seleniumAddress: perfectoConfig.seleniumAddress,
-    multiCapabilities: [
-        {
-            browserName: 'Chrome',
-            browserVersion: '59',
-            chromeOptions: {
-                args: ['disable-infobars']
-            },
-            location: 'EU Frankfurt',
-            platformName: 'Windows',
-            platformVersion: '10',
-            resolution: '1440x900',
-            password: perfectoConfig.password,
-            user: perfectoConfig.user,
-            // Custom
-            deviceProperties: {
-                environment: 'perfecto'
-            }
+/**
+ * Perfecto specific
+ */
+config.seleniumAddress = perfectoConfig.seleniumAddress;
+config.multiCapabilities = [
+    {
+        browserName: 'Chrome',
+        browserVersion: '59',
+        chromeOptions: {
+            args: ['disable-infobars']
         },
-        // {
-        //     browserName: 'Firefox',
-        //     browserVersion: '54',
-        //     location: 'EU Frankfurt',
-        //     platformName: 'Windows',
-        //     platformVersion: '10',
-        //     resolution: '1440x900',
-        //     password: perfectoConfig.password,
-        //     user: perfectoConfig.user,
-        //     // Custom
-        //     deviceProperties: {
-        //         environment: 'perfecto'
-        //     }
-        // },
-        // {
-        //     browserName: 'Internet Explorer',
-        //     browserVersion: '11',
-        //     location: 'US East',
-        //     platformName: 'Windows',
-        //     platformVersion: '8.1',
-        //     resolution: '1440x900',
-        //     password: perfectoConfig.password,
-        //     user: perfectoConfig.user,
-        //     // Custom
-        //     deviceProperties: {
-        //         environment: 'perfecto'
-        //     }
-        // },
-        {
-            browserName: 'Safari',
-            browserVersion: '10',
-            location: 'NA-US-BOS',
-            platformName: 'Mac',
-            platformVersion: 'macOS Sierra',
-            resolution: '1440x900',
-            password: perfectoConfig.password,
-            user: perfectoConfig.user,
-            // Custom
-            deviceProperties: {
-                environment: 'perfecto'
+        location: 'EU Frankfurt',
+        platformName: 'Windows',
+        platformVersion: '10',
+        resolution: '1440x900',
+        password: perfectoConfig.password,
+        user: perfectoConfig.user,
+        // Custom
+        deviceProperties: {
+            browser: {
+                name: 'chrome',
+                version: '59'
+            },
+            device: 'Virtual Machine',
+            deviceType: 'desk',
+            environment: 'perfecto',
+            platform: {
+                name: 'Windows',
+                version: '10'
             }
         }
-    ],
-
-    /**
-     * CucumberJS specific
-     */
-    framework: 'custom',
-    frameworkPath: require.resolve('protractor-cucumber-framework'),
-    specs: [
-        path.resolve(process.cwd(), './tests/**/*.feature')
-    ],
-    cucumberOpts: {
-        require: [
-            path.resolve(process.cwd(), './config-helpers/*.js'),
-            path.resolve(process.cwd(), './tests/**/*.steps.js'),
-        ],
-        format: 'pretty',
-        tags: ''
     },
-
-    // Allows cucumber to handle the 199 exception and record it appropriately
-    ignoreUncaughtExceptions: true,
-
-    /**
-     * Empty local folders before all tests are started
-     */
-    beforeLaunch: () => {
-        console.log(`\n===========================================================================`);
-        console.log(`\n  The directory './tmp', which holds failed screenshots is being removed.\n`);
-        console.log(`===========================================================================\n`);
-        fs.removeSync('./.tmp');
-    },
-
-    /**
-     * CucumberJS + Protractor + Perfecto preparation
-     */
-    onPrepare: () => {
-        // Add the expect for CucumberJS, because it has no default assertion library
-        global.expect = chai.expect;
-
-        // Add the Perfecto reporting
-        browser.reportingClient = new Reporting.Perfecto.PerfectoReportingClient(
-            new Reporting.Perfecto.PerfectoExecutionContext({
-                webdriver: browser.driver,
-                tags: []
-            }));
-
-        /**
-         * - get the capabilities of each driver
-         * - set the screensize
-         */
-        return browser.getProcessedConfig()
-            .then((processedConfig) => {
-                browser.browserName = processedConfig.capabilities.browserName;
-                browser.deviceProperties = processedConfig.capabilities.deviceProperties;
-                return browser.driver.manage().window().setSize(1366, 768);
-            });
+    {
+        browserName: 'Safari',
+        browserVersion: '10',
+        location: 'NA-US-BOS',
+        platformName: 'Mac',
+        platformVersion: 'macOS Sierra',
+        resolution: '1440x900',
+        password: perfectoConfig.password,
+        user: perfectoConfig.user,
+        // Custom
+        deviceProperties: {
+            browser: {
+                name: 'safari',
+                version: '10'
+            },
+            device: 'Mac Mini',
+            deviceType: 'desk',
+            environment: 'perfecto',
+            platform: {
+                name: 'OSX',
+                version: '10.12.5'
+            }
+        }
     }
+];
+
+/**
+ * CucumberJS + Protractor + Perfecto preparation
+ */
+config.onPrepare = () => {
+    // Add the expect for CucumberJS, because it has no default assertion library
+    global.expect = chai.expect;
+
+    // Add the Perfecto reporting
+    browser.reportingClient = new Reporting.Perfecto.PerfectoReportingClient(
+        new Reporting.Perfecto.PerfectoExecutionContext({
+            webdriver: browser.driver,
+            tags: []
+        }));
+
+    // For image comparison
+    browser.protractorImageComparison = new protractorImageComparison(
+        {
+            autoSaveBaseline: true,
+            baselineFolder: 'imageComparison/baseline',
+            screenshotPath: 'imageComparison/actualScreenshots'
+        }
+    );
+
+    /**
+     * - get the capabilities of each driver
+     * - set the screensize
+     */
+    return browser.getProcessedConfig()
+        .then((processedConfig) => {
+            browser.browserName = processedConfig.capabilities.browserName;
+            browser.deviceProperties = processedConfig.capabilities.deviceProperties;
+            return browser.driver.manage().window().setSize(1366, 768);
+        });
 };
+
+exports.config = config;

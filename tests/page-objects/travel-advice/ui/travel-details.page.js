@@ -1,8 +1,9 @@
 'use strict';
 
-const DEPARTURE_PLATFORM_SELECTOR = '.rp-Stop__departureTrack';
-const PRICE_SELECTOR = '.rp-headerPrice__amount';
-const PRICE_LABEL_SELECTOR = '.rp-headerPrice__label';
+const TRAVEL_DETAILS_CONTAINER = 'reisdetails';
+const DEPARTURE_PLATFORM_SELECTOR = `{TRAVEL_DETAILS_CONTAINER} .rp-Stop__departureTrack`;
+const PRICE_SELECTOR = `{TRAVEL_DETAILS_CONTAINER} .rp-headerPrice__amount`;
+const PRICE_LABEL_SELECTOR = `{TRAVEL_DETAILS_CONTAINER} .rp-headerPrice__label`;
 
 module.exports = TravelDetailsPageObject;
 
@@ -12,6 +13,13 @@ module.exports = TravelDetailsPageObject;
  * For now we have the below methods, but it can easily be extended
  */
 function TravelDetailsPageObject() {
+    /**
+     * Get travel details container
+     *
+     * @return {Promise<ElementFinder>}
+     */
+    this.getTravelDetailsContainer = () => $(TRAVEL_DETAILS_CONTAINER);
+
     /**
      * Get the departure platform text, it will return a promise that resolves in a trimmed string
      *

@@ -1,4 +1,5 @@
 'use strict';
+const helpers = require('../../helpers/helpers');
 const TravelDetails = require('./ui/travel-details.page');
 const TravelPossibilities = require('./ui/travel-possibilities.page');
 const TravelPossibility = require('./ui/travel-possibility.page');
@@ -68,5 +69,28 @@ module.exports = function travelAdvice() {
                 selectedDepartureTimePlatformPriceTravelClass.travelClass = priceLabel;
                 return selectedDepartureTimePlatformPriceTravelClass;
             });
+    };
+
+    /**
+     * Select (multiple) earlier and or (multiple) later travels
+     *
+     * @param {Array} earlierLater An array that will hold 1 or multiple 'earlier', 'later'
+     * @return {Promise<void>}
+     *
+     * @example
+     * <pre>
+     *  const selectEarlierLaterTravels(['earlier', 'earlier', 'later', 'earlier', 'later'])
+     * </pre>
+     */
+    this.selectEarlierLaterTravels = (earlierLater) => {
+        const clicksPromises = [];
+
+        for (let click of earlierLater) {
+            const element = click === ' earlier' ? 'getEarlierPossibilities': 'getLaterPossibilities';
+            clicksPromises.push(helpers.scrollElementIntoView(travelPossibilities[element]()));
+            clicksPromises.push(travelPossibilities[element]().click());
+        }
+
+        return Promise.all(clicksPromises);
     };
 };
