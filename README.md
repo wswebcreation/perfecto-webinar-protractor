@@ -3,11 +3,7 @@ This repo holds the protractor project that is used during the webinar of the 27
 
 The master branch will hold the default setup
 
-This branch will hold the same setup as the master branch, but only with:
- 
-- tasks and page objects. To make it more clear the page objects are documented
-- a custom reporter
-- image comparison demo
+This branch will hold the same setup as the master and the page-objects branch, but all code is now in TypeScript
 
 ## Checking your environment
 Before cloning and installing the project make sure you have NodeJS installed on your machine. This needs to be at least version `6.9.x`.
