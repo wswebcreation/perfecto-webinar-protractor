@@ -1,18 +1,15 @@
 // See event handlers https://github.com/cucumber/cucumber-js/blob/master/docs/support_files/event_handlers.md
-const {defineSupportCode} = require('cucumber');
+import { defineSupportCode, Feature, Scenario, Step } from 'cucumber';
+import { browser } from 'protractor';
 
 defineSupportCode(({registerHandler}) => {
-    const isPerfecto = browser.deviceProperties.environment === 'perfecto';
-
-    registerHandler('BeforeFeature', (feature, callback) => {
-        if (isPerfecto) {
+    if (browser.deviceProperties.environment === 'perfecto') {
+        registerHandler('BeforeFeature', (feature: Feature, callback: () => void): void => {
             browser.currentFeature = feature.name;
-        }
-        callback();
-    });
+            callback();
+        });
 
-    registerHandler('BeforeScenario', (scenario, callback) => {
-        if (isPerfecto) {
+        registerHandler('BeforeScenario', (scenario: Scenario, callback) => {
             const tags = [];
             const tagsObj = scenario.tags;
 
@@ -24,14 +21,12 @@ defineSupportCode(({registerHandler}) => {
             tags.push(browser.currentFeature);
 
             browser.reportingClient.testStart(scenario.name, tags);
-        }
-        callback();
-    });
+            callback();
+        });
 
-    registerHandler('BeforeStep', (step, callback) => {
-        if (isPerfecto) {
+        registerHandler('BeforeStep', (step: Step, callback: () => void): void => {
             browser.reportingClient.stepStart(step.keyword + ' ' + step.name);
-        }
-        callback();
-    });
+            callback();
+        });
+    }
 });

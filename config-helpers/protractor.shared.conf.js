@@ -27,7 +27,6 @@ exports.config = {
     cucumberOpts: {
         compiler: "ts:ts-node/register",
         require: [
-            path.resolve(process.cwd(), './config-helpers/*.js'),
             path.resolve(process.cwd(), './config-helpers/*.ts'),
             path.resolve(process.cwd(), './tests/**/*.steps.ts'),
         ],

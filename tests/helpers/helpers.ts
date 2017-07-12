@@ -50,10 +50,10 @@ async function _clickOnAccept(): Promise<void> {
 
     await browser.switchTo().frame(0);
     browser.ignoreSynchronization = true;
-    await $('.accept').click();
-    browser.ignoreSynchronization = false;
 
     try {
+        await $('.accept').click();
+        browser.ignoreSynchronization = false;
         await browser.driver.switchTo().defaultContent();
     } catch (error) {
         browser.ignoreSynchronization = false;

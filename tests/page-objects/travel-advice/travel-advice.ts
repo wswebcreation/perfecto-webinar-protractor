@@ -1,102 +1,56 @@
-'use strict';
-import { scrollElementIntoView } from '../../helpers/helpers';
 import { browser, ElementFinder } from 'protractor';
+import { scrollElementIntoView } from '../../helpers/helpers';
+import { TravelDetailsPageObject } from './ui/travel-details.page';
+import { PossibilityPageObject } from './ui/travel-possibility.page';
+import { PossibilitiesPageObject } from './ui/travel-possibilities.page';
 
-const TravelDetails = require('./ui/travel-details.page');
-const TravelPossibilities = require('./ui/travel-possibilities.page');
-const TravelPossibility = require('./ui/travel-possibility.page');
+export enum ActionType {
+    EARLIER,
+    LATER
+}
 
-/**
- * Return all the tasks for the journey advice
- */
-module.exports = function travelAdvice() {
-    const travelDetails = new TravelDetails();
-    const travelPossibilities = new TravelPossibilities();
+export interface SelectedDepartureTimePlatformPriceTravelClassInterface {
+    departureTime: string;
+    departurePlatform: string;
+    price: string;
+    travelClass: string;
+}
 
-    /**
-     * Get the suggested travel times
-     *
-     * @return {Promise<string>} like `20:48, 21:00, 21:18, 21:48, 22:18`
-     */
-    this.getSuggestedTravelTimes = () => {
-        const suggestedTravelTimes:any = [];
+export class TravelAdviceTasks {
+    private travelDetails: TravelDetailsPageObject;
+    private travelPossibilities: PossibilitiesPageObject;
 
-        return travelPossibilities.getAllPossibilities()
-            .each((possibility:ElementFinder) => {
-                return new TravelPossibility(possibility).getDepartureTime()
-                    .then((suggestedDepartureTime:string) => {
-                        suggestedTravelTimes.push(suggestedDepartureTime.trim());
-                    });
-            })
-            .then(() => suggestedTravelTimes.join(', '));
-    };
+    constructor() {
+        this.travelDetails = new TravelDetailsPageObject();
+        this.travelPossibilities = new PossibilitiesPageObject();
+    }
 
-    /**
-     * Get the selected departure time, platform, price and travel class
-     *
-     * @return {Promise<object>} When resolved it looks like
-     *
-     * @example
-     * <pre>
-     *  {
-     *       departureTime: '17:00',
-     *       departurePlatform: 'Platform 1',
-     *       price: '€ 16.80',
-     *       travelClass: 'Single way, 2nd class'
-     *  }
-     * </pre>
-     */
-    this.getSelectedDepartureTimePlatformPriceTravelClass = () => {
-        const selectedDepartureTimePlatformPriceTravelClass = {
-            departureTime: '',
-            departurePlatform: '',
-            price: '',
-            travelClass: ''
+    public async getSuggestedTravelTimes(): Promise<string> {
+        const suggestedDepartureTimes = await this.travelPossibilities.getAllPossibilities()
+            .map((possibility: ElementFinder) => new PossibilityPageObject(possibility).getDepartureTime());
+
+        return suggestedDepartureTimes.map((suggestedDepartureTime: string) => suggestedDepartureTime.trim()).join(', ');
+    }
+
+    public async getSelectedDepartureTimePlatformPriceTravelClass(): Promise<SelectedDepartureTimePlatformPriceTravelClassInterface> {
+        if (browser.deviceProperties.deviceType === 'mob') {
+            await this.travelPossibilities.getSelectedPossibility().open();
+        }
+
+        return {
+            departureTime: await this.travelDetails.getDepartureTime(),
+            departurePlatform: await this.travelDetails.getDeparturePlatform(),
+            price: await this.travelDetails.getPrice(),
+            travelClass: await this.travelDetails.getPriceLabel()
         };
 
-        if (browser.deviceProperties.deviceType === 'mob') {
-            travelPossibilities.getSelectedPossibility().open();
-        }
-
-        return travelDetails.getDepartureTime()
-            .then((departureTime: string) => {
-                selectedDepartureTimePlatformPriceTravelClass.departureTime = departureTime;
-                return travelDetails.getDeparturePlatform();
-            })
-            .then((departurePlatform: string) => {
-                selectedDepartureTimePlatformPriceTravelClass.departurePlatform = departurePlatform;
-                return travelDetails.getPrice();
-            })
-            .then((price: string) => {
-                selectedDepartureTimePlatformPriceTravelClass.price = price;
-                return travelDetails.getPriceLabel();
-            })
-            .then((priceLabel: string) => {
-                selectedDepartureTimePlatformPriceTravelClass.travelClass = priceLabel;
-                return selectedDepartureTimePlatformPriceTravelClass;
-            });
     };
 
-    /**
-     * Select (multiple) earlier and or (multiple) later travels
-     *
-     * @param {Array} earlierLater An array that will hold 1 or multiple 'earlier', 'later'
-     * @return {Promise<void>}
-     *
-     * @example
-     * <pre>
-     *  const selectEarlierLaterTravels(['earlier', 'earlier', 'later', 'earlier', 'later'])
-     * </pre>
-     */
-    this.selectEarlierLaterTravels = (earlierLater: any) => {
-        const clicksPromises = [];
-
-        for (let click of earlierLater) {
-            const element = click === ' earlier' ? 'getEarlierPossibilities' : 'getLaterPossibilities';
-            clicksPromises.push(scrollElementIntoView(travelPossibilities[element]()));
-            clicksPromises.push(travelPossibilities[element]().click());
+    public async selectEarlierLaterTravels(actions: ActionType[]): Promise<void> {
+        for (let action of actions) {
+            const element = action === ActionType.EARLIER ? 'getEarlierPossibilities' : 'getLaterPossibilities';
+            await scrollElementIntoView(this.travelPossibilities[element]());
+            await this.travelPossibilities[element]().click();
         }
-
-        return Promise.all(clicksPromises);
-    };
-};
+    }
+}
