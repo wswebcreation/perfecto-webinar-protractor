@@ -11,9 +11,9 @@ defineSupportCode(({Given, When, Then}) => {
         element(by.id('location_input_departure')).sendKeys(fromStation);
         element(by.id('location_input_arrival')).sendKeys(toStation);
         element(by.className('rp-DateButton')).click();
-        element(by.model('datepickerCtrl.date')).element(by.cssContainingText('td', date)).click();
+        element(by.model('datepickerCtrl.date')).all(by.cssContainingText('td button', date)).last().click();
         element(by.className('rp-Reisplanbalk__buttonInput')).click();
-        element(by.cssContainingText('.rp-Timepicker__times .list__item', time)).click();
+        element(by.cssContainingText('.rp-Timepicker__times .list__item button', time)).click();
         return element(by.className('rp-Reisplanbalk__submit')).click();
     });
 
@@ -34,12 +34,12 @@ defineSupportCode(({Given, When, Then}) => {
 
     Then('he should see the preselected journey will leave at {departureTime} from platform {platform} and costs € {amount} for a single way {travelClass} class ticket',
         (departureTime, platform, amount, travelClass) => {
-            element.all(by.repeater('mogelijkheid in reisadviesCtrl.advies.reismogelijkheden track by mogelijkheid.hash'))
-                .filter((travelPossibility) => {
-                    return travelPossibility.element(by.tagName('a')).getAttribute('class')
-                        .then((classes) => classes.indexOf('rp-mogelijkheid--selected') > -1);
-                })
-                .first().element(by.css('.rp-mogelijkheidTijd.rp-vertrekTijd')).getText()
+            if (browser.deviceProperties.deviceType === 'mob') {
+                browser.executeScript('arguments[0].scrollIntoView();', element(by.className('rp-mogelijkheid--selected')).getWebElement());
+                element(by.className('rp-mogelijkheid--selected')).click();
+            }
+
+            element(by.css('reisdetails .rp-Stop__departureTime')).getText()
                 .then((text) => expect(text.trim()).to.equal(departureTime));
 
             element(by.css('.rp-reisadvies__main .rp-headerPrice__amount')).getText()

@@ -24,8 +24,13 @@ function helpers() {
         /**
          * This fails on Safari 10, the `switchTo()` doesn't seem to work good, non responsive hack for Safari
          */
-        if (browser.browserName.toLowerCase() === 'safari') {
-            return browser.actions().mouseMove({x: 493, y: 333}).mouseDown().mouseUp().perform();
+        if (browser.deviceProperties.environment === 'perfecto') {
+            return browser.driver.executeScript('mobile:button-text:click', {
+                'label': 'Accepteer cookies',
+                'ignorecase': 'case',
+                'match': 'last'
+            })
+                .catch(() => Promise.resolve());
         }
         return browser.switchTo().frame(0)
             .then(() => {
