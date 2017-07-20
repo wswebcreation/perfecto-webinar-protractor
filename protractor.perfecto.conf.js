@@ -40,30 +40,6 @@ config.multiCapabilities = [
     },
     {
         browserName: 'Safari',
-        browserVersion: '10',
-        location: 'NA-US-BOS',
-        platformName: 'Mac',
-        platformVersion: 'macOS Sierra',
-        resolution: '1440x900',
-        password: perfectoConfig.password,
-        user: perfectoConfig.user,
-        // Custom
-        deviceProperties: {
-            browser: {
-                name: 'safari',
-                version: '10'
-            },
-            device: 'Mac Mini',
-            deviceType: 'desk',
-            environment: 'perfecto',
-            platform: {
-                name: 'OSX',
-                version: '10.12.5'
-            }
-        }
-    },
-    {
-        browserName: 'Safari',
         browserVersion: '10.2.1',
         location: 'NA-US-BOS',
         model: 'iPhone-7 Plus',

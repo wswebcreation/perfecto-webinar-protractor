@@ -37,15 +37,16 @@ export async function scrollElementIntoView(element: ElementFinder): Promise<voi
  * Accept the cookies in the iframe
  */
 async function _clickOnAccept(): Promise<void> {
-    /**
-     * This fails on Safari 10 / iOS Safari, the `switchTo()` doesn't seem to work good, Perfecto implementation
-     */
-    if (browser.browserName.toLowerCase() === 'safari') {
-        return browser.driver.executeScript<void>('mobile:button-text:click', {
-            'label': 'Accepteer cookies',
-            'ignorecase': 'case',
-            'match': 'last'
-        });
+    if (browser.deviceProperties.environment === 'perfecto') {
+        try {
+            return browser.driver.executeScript<void>('mobile:button-text:click', {
+                'label': 'Accepteer cookies',
+                'ignorecase': 'case',
+                'match': 'last'
+            });
+        } catch (error) {
+            return Promise.resolve();
+        }
     }
 
     await browser.switchTo().frame(0);
@@ -53,10 +54,10 @@ async function _clickOnAccept(): Promise<void> {
 
     try {
         await $('.accept').click();
-        browser.ignoreSynchronization = false;
+        browser.waitForAngularEnabled(false);
         await browser.driver.switchTo().defaultContent();
     } catch (error) {
-        browser.ignoreSynchronization = false;
+        browser.waitForAngularEnabled(true);
         return browser.driver.switchTo().defaultContent();
     }
 }
