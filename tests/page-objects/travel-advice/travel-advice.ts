@@ -44,7 +44,7 @@ export class TravelAdviceTasks {
             travelClass: await this.travelDetails.getPriceLabel()
         };
 
-    };
+    }
 
     public async selectEarlierLaterTravels(actions: ActionType[]): Promise<void> {
         for (let action of actions) {

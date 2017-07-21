@@ -50,11 +50,11 @@ async function _clickOnAccept(): Promise<void> {
     }
 
     await browser.switchTo().frame(0);
-    browser.ignoreSynchronization = true;
+    browser.waitForAngularEnabled(false);
 
     try {
         await $('.accept').click();
-        browser.waitForAngularEnabled(false);
+        browser.waitForAngularEnabled(true);
         await browser.driver.switchTo().defaultContent();
     } catch (error) {
         browser.waitForAngularEnabled(true);
@@ -68,14 +68,14 @@ async function _clickOnAccept(): Promise<void> {
  */
 function _disablePossibilityHover(): void {
     const css = '.rp-mogelijkheid:hover .rp-mogelijkheid__background {' +
-            'top: 0 !important;' +
-            'right: 0 !important;' +
-            'bottom: 0 !important;' +
-            'left: 0 !important;' +
-            'box-shadow: 0 0.125rem 0 0 rgba(7,7,33,.15) !important;' +
-            '}',
-        head = document.head || document.getElementsByTagName('head')[0],
-        style = document.createElement('style');
+        'top: 0 !important;' +
+        'right: 0 !important;' +
+        'bottom: 0 !important;' +
+        'left: 0 !important;' +
+        'box-shadow: 0 0.125rem 0 0 rgba(7,7,33,.15) !important;' +
+        '}';
+    const head = document.head || document.getElementsByTagName('head')[0];
+    const style = document.createElement('style');
 
     style.type = 'text/css';
     style.appendChild(document.createTextNode(css));

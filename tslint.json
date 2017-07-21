@@ -1,5 +1,4 @@
 {
-    "rulesDirectory": ["../../node_modules/codelyzer"],
     "rules": {
 
         "no-any": false,
@@ -7,7 +6,7 @@
         "no-internal-module": true,
         "no-namespace": true,
         "no-reference": true,
-        "no-var-requires": true,
+        "no-var-requires": false,
         "ban": false,
         "curly": true,
         "forin": true,
@@ -29,7 +28,7 @@
         "linebreak-style": false,
         "no-default-export": false,
         "no-mergeable-namespace": false,
-        "no-require-imports": true,
+        "no-require-imports": false,
         "object-literal-sort-keys": false,
         "align": [false],
         "comment-format": [

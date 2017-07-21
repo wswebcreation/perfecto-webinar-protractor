@@ -31,7 +31,7 @@ defineSupportCode(({registerListener}) => {
         const browserName = capabilities.get('browserName');
         const jsonReport = JSON.parse(report);
 
-        if (jsonReport[0] != null) {
+        if (jsonReport[0] !== null) {
             const metadata = {
                 'browser': {
                     'name': browser.deviceProperties.browser.name,

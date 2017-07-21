@@ -7,7 +7,6 @@ const DATEPICKER_MONTH_FORWARD_SELECTOR = `${DATEPICKER_CONTAINER_SELECTOR} .uib
 const DATEPICKER_DAY_SELECTOR_SELECTOR = `${DATEPICKER_CONTAINER_SELECTOR} td button`;
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-
 /**
  * The datepicker page component.
  *
@@ -40,7 +39,7 @@ export class DatepickerPageComponent {
 
         if (newMonthIndex > selectedMonthIndex) {
             clickAmount = newMonthIndex - selectedMonthIndex;
-        } else if (newMonthIndex < selectedMonthIndex){
+        } else if (newMonthIndex < selectedMonthIndex) {
             clickAmount = 12 - (selectedMonthIndex - newMonthIndex);
         }
 

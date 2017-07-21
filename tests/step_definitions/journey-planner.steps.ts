@@ -10,7 +10,11 @@ import {
 import { PlanJourneyTasks } from '../page-objects/journey-planner/plan-journey';
 import { TravelDetailsPageObject } from '../page-objects/travel-advice/ui/travel-details.page';
 import { PossibilitiesPageObject } from '../page-objects/travel-advice/ui/travel-possibilities.page';
-import { ActionType, SelectedDepartureTimePlatformPriceTravelClassInterface, TravelAdviceTasks } from '../page-objects/travel-advice/travel-advice';
+import {
+    ActionType,
+    SelectedDepartureTimePlatformPriceTravelClassInterface,
+    TravelAdviceTasks
+} from '../page-objects/travel-advice/travel-advice';
 
 defineSupportCode(({Given, When, Then}) => {
     const journey: PlanJourneyTasks = new PlanJourneyTasks();
@@ -46,12 +50,14 @@ defineSupportCode(({Given, When, Then}) => {
         await expect(travelAdvice.getSuggestedTravelTimes()).to.eventually.equal(suggestedTimes);
     });
 
+    // tslint:disable-line
     Then('he should see the preselected journey will leave at {departureTime} from platform {platform} and costs € {amount} for a single way {travelClass} class ticket',
         async (departureTime: string,
                platform: string,
                amount: string,
                travelClass: string): Promise<void> => {
 
+            // tslint:disable-line
             const selectedDepartureTimePlatformPriceTravelClass: SelectedDepartureTimePlatformPriceTravelClassInterface = await travelAdvice.getSelectedDepartureTimePlatformPriceTravelClass();
 
             expect(selectedDepartureTimePlatformPriceTravelClass.departureTime).to.equal(departureTime);

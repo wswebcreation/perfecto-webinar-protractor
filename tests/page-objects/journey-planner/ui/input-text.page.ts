@@ -10,19 +10,19 @@ export class InputTextPageComponent {
         this.component = typeof elementFinder === 'object' ? elementFinder : $('[type="text"]');
     }
 
-    public async isDisabled():Promise<boolean> {
+    public async isDisabled(): Promise<boolean> {
         return (await this.component.getAttribute('disabled')) === 'true';
     }
 
-    public async getValue():Promise<string> {
+    public async getValue(): Promise<string> {
         return (await this.component.getAttribute('value')) || '';
     }
 
-    public async setValue(value: string):Promise<void> {
+    public async setValue(value: string): Promise<void> {
         return this.component.sendKeys(value);
     }
 
-    public async clearValue():Promise<void> {
+    public async clearValue(): Promise<void> {
         return this.component.clear();
     }
 }

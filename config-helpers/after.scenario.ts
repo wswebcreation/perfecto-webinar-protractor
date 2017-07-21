@@ -1,5 +1,5 @@
 // See hooks https://github.com/cucumber/cucumber-js/blob/master/docs/support_files/hooks.md
-// and https://github.com/cucumber/cucumber-js/blob/master/docs/support_files/event_handlers.md
+// And https://github.com/cucumber/cucumber-js/blob/master/docs/support_files/event_handlers.md
 import { defineSupportCode, HookScenarioResult, Step } from 'cucumber';
 import { resolve } from 'path';
 import { browser } from 'protractor';
@@ -32,10 +32,10 @@ defineSupportCode(({After, registerHandler}) => {
      *  - update the Perfecto report on success / failure
      */
     After(async function (scenarioResult: HookScenarioResult): Promise<void> {
-        const world: World = this;
+        const world: World = this; // tslint:disable-line
 
         // Remove the local storage
-        await browser.driver.executeScript('localStorage.removeItem("location-arrival");localStorage.removeItem("location-departure");')
+        await browser.driver.executeScript('localStorage.removeItem("location-arrival");localStorage.removeItem("location-departure");');
 
         if (scenarioResult.status === 'failed') {
             if (isPerfecto) {
@@ -45,7 +45,7 @@ defineSupportCode(({After, registerHandler}) => {
                 });
             }
 
-            return saveFailedScenarioScreenshot(world, scenarioResult)
+            return saveFailedScenarioScreenshot(world, scenarioResult);
         } else {
             if (isPerfecto) {
                 browser.reportingClient.testStop({

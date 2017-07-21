@@ -14,7 +14,7 @@ export class TimePickerPageComponent {
     public async setValue(time: string): Promise<void> {
         await this.openTimepicker();
         await this.setTime(time);
-    };
+    }
 
     private async openTimepicker(): Promise<void> {
         return $(TIME_BUTTON_SELECTOR).click();
@@ -22,7 +22,7 @@ export class TimePickerPageComponent {
 
     private async setTime(time: string): Promise<void> {
         if (!/\d{2}:\d{2}/.test(time)) {
-            console.warn(`\nWARNING: 'timepicker.setValue(${time})' failed. ${time} is not a valid value, it should be [01:01] | [13:25]\n`);
+            console.warn(`\nWARNING: 'timepicker.setValue(${time})' failed. ${time} is not a valid value, it should be [01:01]|[13:25]\n`);
         }
 
         return element(by.cssContainingText(TIME_LIST_ITEM_SELECTOR, time)).click();
