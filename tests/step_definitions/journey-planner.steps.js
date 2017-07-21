@@ -26,10 +26,6 @@ defineSupportCode(({Given, When, Then}) => {
         });
     });
 
-    When('he want\'s to see which journeys are earlier and later', () => {
-        return travelAdvice.selectEarlierLaterTravels(['earlier', 'later']);
-    });
-
     Then('he should see the trains departing at {suggestedTimes}', (suggestedTimes) => {
         return expect(travelAdvice.getSuggestedTravelTimes()).to.eventually.equal(suggestedTimes);
     });
@@ -44,6 +40,13 @@ defineSupportCode(({Given, When, Then}) => {
                     return expect(result.travelClass).to.contains(travelClass);
                 });
         });
+
+    /**
+     * Used for the image comparison feature file
+     */
+    When('he want\'s to see which journeys are earlier and later', () => {
+        return travelAdvice.selectEarlierLaterTravels(['earlier', 'later']);
+    });
 
     Then('he can verify the {screenshotType} result with a baseline', (screenshotType) => {
         if (screenshotType === 'travel details') {
