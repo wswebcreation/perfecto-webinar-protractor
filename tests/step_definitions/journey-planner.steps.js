@@ -34,11 +34,6 @@ defineSupportCode(({Given, When, Then}) => {
 
     Then('he should see the preselected journey will leave at {departureTime} from platform {platform} and costs € {amount} for a single way {travelClass} class ticket',
         (departureTime, platform, amount, travelClass) => {
-            if (browser.deviceProperties.deviceType === 'mob') {
-                browser.executeScript('arguments[0].scrollIntoView();', element(by.className('rp-mogelijkheid--selected')).getWebElement());
-                element(by.className('rp-mogelijkheid--selected')).click();
-            }
-
             element(by.css('reisdetails .rp-Stop__departureTime')).getText()
                 .then((text) => expect(text.trim()).to.equal(departureTime));
 

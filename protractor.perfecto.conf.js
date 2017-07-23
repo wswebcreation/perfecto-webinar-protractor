@@ -29,23 +29,7 @@ exports.config = {
             user: perfectoConfig.user,
             // Custom
             deviceProperties: {
-                deviceType: 'desk',
                 environment: 'perfecto'
-            }
-        },
-        {
-            browserName: 'Safari',
-            browserVersion: '10.2.1',
-            location: 'NA-US-BOS',
-            model: 'iPhone-7 Plus',
-            platformName: 'iOS',
-            platformVersion: '10.2.1',
-            password: perfectoConfig.password,
-            user: perfectoConfig.user,
-            // Custom
-            deviceProperties: {
-                deviceType: 'mob',
-                environment: 'perfecto',
             }
         }
     ],
