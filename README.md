@@ -1,9 +1,11 @@
 # perfecto-webinar-protractor
 This repo holds the protractor project that is used during the webinar of the 27th of July 2017
 
-The master branch will hold the default setup
+The master branch will hold the default setup.
 
-This branch will hold the same setup as the master and the page-objects branch, but all code is now in TypeScript
+> You can swith between the `master|page-objects|typescript`-branches with your IDE or terminal to get the right examples. 
+
+This branch will hold the same setup as the page-objects branch, but all code is now in TypeScript.
 
 ## Checking your environment
 Before cloning and installing the project make sure you have NodeJS installed on your machine. This needs to be at least version `6.9.x`.
@@ -30,7 +32,7 @@ Protractor needs to have a selenium server running locally to connect to the bro
 To run the tests local execute `npm run test.local`
 
 ## Run on the perfecto cloud
-Before you are able to run against the Perfecto cloud add a file to your project called `perfecto.config.json` and add the following data to it
+Before you are able to run against the Perfecto cloud add a file to your the root of your project called `perfecto.config.json` and add the following data to it
 
 ```javascript
     {
