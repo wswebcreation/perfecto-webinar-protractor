@@ -56,11 +56,14 @@ defineSupportCode(({Given, When, Then}) => {
             }
 
             // First always scroll the element into the view, if not then it will fail
-            helpers.scrollElementIntoView(travelDetails.getTravelDetailsContainer());
+            helpers.scrollElementIntoView(travelDetails.getJourney());
+
+            // Open the journey details
+            travelDetails.openJourney();
 
             // Just call the check method, add an element and a name of the screenshot and compare the result
             return expect(
-                browser.protractorImageComparison.checkElement(travelDetails.getTravelDetailsContainer(), 'travelDetails')
+                browser.protractorImageComparison.checkElement(travelDetails.getJourney(), 'journeyDetails')
             ).to.eventually.equal(0);
 
         } else if (screenshotType === 'fullpage screenshot') {
