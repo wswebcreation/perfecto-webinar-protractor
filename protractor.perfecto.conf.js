@@ -78,7 +78,7 @@ config.onPrepare = () => {
     // For image comparison
     browser.protractorImageComparison = new protractorImageComparison(
         {
-            autoSaveBaseline: false,
+            autoSaveBaseline: false, // If you set this to true the baseline will automatically be generated
             baselineFolder: 'imageComparison/baseline',
             screenshotPath: 'imageComparison/actualScreenshots'
         }
