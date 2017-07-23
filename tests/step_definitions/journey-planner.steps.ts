@@ -42,10 +42,6 @@ defineSupportCode(({Given, When, Then}) => {
             });
         });
 
-    When('he want\'s to see which journeys are earlier and later', async (): Promise<void> => {
-        await travelAdvice.selectEarlierLaterTravels([ActionType.EARLIER, ActionType.LATER]);
-    });
-
     Then('he should see the trains departing at {suggestedTimes}', async (suggestedTimes): Promise<void> => {
         await expect(travelAdvice.getSuggestedTravelTimes()).to.eventually.equal(suggestedTimes);
     });
@@ -65,6 +61,14 @@ defineSupportCode(({Given, When, Then}) => {
             expect(selectedDepartureTimePlatformPriceTravelClass.price).to.contains(amount);
             await expect(selectedDepartureTimePlatformPriceTravelClass.travelClass).to.contains(travelClass);
         });
+
+    /**
+     * Used for the image comparison feature file
+     */
+
+    When('he want\'s to see which journeys are earlier and later', async (): Promise<void> => {
+        await travelAdvice.selectEarlierLaterTravels([ActionType.EARLIER, ActionType.LATER]);
+    });
 
     Then('he can verify the {screenshotType} result with a baseline', async (screenshotType: string): Promise<void> => {
         if (screenshotType === 'travel details') {
