@@ -18,11 +18,11 @@ defineSupportCode(({After, registerHandler}) => {
     /**
      * For the Perfecto report
      */
-    registerHandler('AfterStep', (step: Step, callback: () => void): void => {
+    registerHandler('AfterStep', async (step: Step): Promise<void> => {
         if (isPerfecto) {
-            browser.reportingClient.stepEnd(step.keyword + ' ' + step.name);
+            await browser.reportingClient.stepEnd(step.keyword + ' ' + step.name);
         }
-        callback();
+        return Promise.resolve();
     });
 
     /**
@@ -39,7 +39,7 @@ defineSupportCode(({After, registerHandler}) => {
 
         if (scenarioResult.status === 'failed') {
             if (isPerfecto) {
-                browser.reportingClient.testStop({
+                await browser.reportingClient.testStop({
                     status: Reporting.Constants.results.failed,
                     message: JSON.stringify(scenarioResult.failureException)
                 });
@@ -48,7 +48,7 @@ defineSupportCode(({After, registerHandler}) => {
             return saveFailedScenarioScreenshot(world, scenarioResult);
         } else {
             if (isPerfecto) {
-                browser.reportingClient.testStop({
+                await browser.reportingClient.testStop({
                     status: Reporting.Constants.results.passed
                 });
             }
