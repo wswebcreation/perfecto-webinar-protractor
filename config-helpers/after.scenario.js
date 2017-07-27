@@ -11,11 +11,11 @@ defineSupportCode(({After, registerHandler}) => {
     /**
      * For the Perfecto report
      */
-    registerHandler('AfterStep', (step, callback) => {
+    registerHandler('AfterStep', (step) => {
         if (isPerfecto) {
-            browser.reportingClient.stepEnd(step.keyword + ' ' + step.name);
+            return browser.reportingClient.stepEnd(step.keyword + ' ' + step.name);
         }
-        callback();
+        return Promise.resolve();
     });
 
     /**

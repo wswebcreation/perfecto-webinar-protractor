@@ -40,40 +40,4 @@ defineSupportCode(({Given, When, Then}) => {
                     return expect(result.travelClass).to.contains(travelClass);
                 });
         });
-
-    /**
-     * Used for the image comparison feature file
-     */
-    When('he want\'s to see which journeys are earlier and later', () => {
-        return travelAdvice.selectEarlierLaterTravels(['earlier', 'later']);
-    });
-
-    Then('he can verify the {screenshotType} result with a baseline', (screenshotType) => {
-        if (screenshotType === 'travel details') {
-            // The behaviour on mobile is different. We first need to open the travel before we can see the details
-            if (browser.deviceProperties.deviceType === 'mob') {
-                travelPossibilities.getSelectedPossibility().open();
-            }
-
-            // First always scroll the element into the view, if not then it will fail
-            helpers.scrollElementIntoView(travelDetails.getJourney());
-
-            // Open the journey details
-            travelDetails.openJourney();
-
-            // Just call the check method, add an element and a name of the screenshot and compare the result
-            return expect(
-                browser.protractorImageComparison.checkElement(travelDetails.getJourney(), 'journeyDetails')
-            ).to.eventually.equal(0);
-
-        } else if (screenshotType === 'fullpage screenshot') {
-            // This is extra for the full page screenshot, but only needed in this specific case
-            helpers.disablePossibilityHover();
-
-            // Just call the check method, add a name how you want the screenshot to be named and compare the result
-            return expect(
-                browser.protractorImageComparison.checkFullPageScreen('fullpage', {ignoreAntialiasing: true})
-            ).to.eventually.equal(0);
-        }
-    });
 });

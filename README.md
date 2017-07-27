@@ -10,7 +10,6 @@ This page-object branch will hold the same setup as the master branch, but only 
 - mobile support
 - tasks and page objects. To make it more clear the page objects are documented
 - a custom reporter
-- image comparison demo
 
 ## Checking your environment
 Before cloning and installing the project make sure you have NodeJS installed on your machine. This needs to be at least version `6.9.x`.
@@ -55,8 +54,3 @@ In this setup we use, next to the report client Perfecto also delivers, a custom
 This report can also be used for local development / debugging the tests. It will hold screenshots and stacktrace (on failure). If you run the command mentioned above and add `-- --openReportInBrowser` to it, then the report will automatically be opend in the default browser of you operating system
 
 ![Snapshot - Custom reporter](./assets/custom-reporter.jpg "Snapshot - Custom reporter")
-
-## Image comparison
-There is also a demo for a free image comparison module called [protractor-image-comparison](https://github.com/wswebcreation/protractor-image-comparison). By default the image comparison is **NOT** run when you use the above commands.
-
-When you add `-- --cucumberOpts.tags=@image-comparison` to the above commands it will only run the image comparison feature-file

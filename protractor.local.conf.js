@@ -3,7 +3,6 @@
  */
 const config = require('./config-helpers/protractor.shared.conf').config;
 const chai = require('chai');
-const protractorImageComparison = require('protractor-image-comparison');
 
 chai.use(require('chai-as-promised'));
 
@@ -37,14 +36,6 @@ config.capabilities = {
 config.onPrepare = () => {
     // Add the expect for CucumberJS, because it has no default assertion library
     global.expect = chai.expect;
-
-    // For image comparison
-    browser.protractorImageComparison = new protractorImageComparison(
-        {
-            baselineFolder: 'imageComparison/baseline',
-            screenshotPath: 'imageComparison/actualScreenshots'
-        }
-    );
 
     /**
      * - get the capabilities of each driver

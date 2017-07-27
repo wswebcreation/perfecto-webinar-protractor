@@ -5,7 +5,6 @@ const config = require('./config-helpers/protractor.shared.conf').config;
 const perfectoConfig = require('./perfecto.config.json');
 const Reporting = require('perfecto-reporting');
 const chai = require('chai');
-const protractorImageComparison = require('protractor-image-comparison');
 
 chai.use(require('chai-as-promised'));
 
@@ -81,15 +80,6 @@ config.onPrepare = () => {
             webdriver: browser.driver,
             tags: []
         }));
-
-    // For image comparison
-    browser.protractorImageComparison = new protractorImageComparison(
-        {
-            autoSaveBaseline: false, // If you set this to true the baseline will automatically be generated
-            baselineFolder: 'imageComparison/baseline',
-            screenshotPath: 'imageComparison/actualScreenshots'
-        }
-    );
 
     /**
      * - get the capabilities of each driver
