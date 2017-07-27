@@ -39,7 +39,7 @@ export async function scrollElementIntoView(element: ElementFinder): Promise<voi
 async function _clickOnAccept(): Promise<void> {
     if (browser.deviceProperties.environment === 'perfecto') {
         try {
-            return browser.driver.executeScript<void>('mobile:button-text:click', {
+            await browser.driver.executeScript<void>('mobile:button-text:click', {
                 'label': 'Accepteer cookies',
                 'ignorecase': 'case',
                 'match': 'last'
@@ -47,18 +47,19 @@ async function _clickOnAccept(): Promise<void> {
         } catch (error) {
             return Promise.resolve();
         }
-    }
+    } else {
 
-    await browser.switchTo().frame(0);
-    browser.waitForAngularEnabled(false);
+        await browser.switchTo().frame(0);
+        browser.waitForAngularEnabled(false);
 
-    try {
-        await $('.accept').click();
-        browser.waitForAngularEnabled(true);
-        await browser.driver.switchTo().defaultContent();
-    } catch (error) {
-        browser.waitForAngularEnabled(true);
-        return browser.driver.switchTo().defaultContent();
+        try {
+            await $('.accept').click();
+            browser.waitForAngularEnabled(true);
+            await browser.driver.switchTo().defaultContent();
+        } catch (error) {
+            browser.waitForAngularEnabled(true);
+            await browser.driver.switchTo().defaultContent();
+        }
     }
 }
 
