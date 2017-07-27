@@ -23,6 +23,10 @@ config.multiCapabilities = [
         resolution: '1440x900',
         password: perfectoConfig.password,
         user: perfectoConfig.user,
+        // Cucumber specific instance options
+        cucumberOpts: {
+            tags: '@image-comparison and not @mobile'
+        },
         // Custom
         deviceProperties: {
             browser: {
@@ -47,6 +51,10 @@ config.multiCapabilities = [
         platformVersion: '10.2.1',
         password: perfectoConfig.password,
         user: perfectoConfig.user,
+        // Cucumber specific instance options
+        cucumberOpts: {
+            tags: '@image-comparison and not @desktop'
+        },
         // Custom
         deviceProperties: {
             browser: {
@@ -78,9 +86,9 @@ config.onPrepare = () => {
     // For image comparison
     browser.protractorImageComparison = new protractorImageComparison(
         {
-            autoSaveBaseline: false, // If you set this to true the baseline will automatically be generated
+            autoSaveBaseline: true,
             baselineFolder: 'imageComparison/baseline',
-            screenshotPath: 'imageComparison/actualScreenshots'
+            screenshotPath: '.tmp/tempScreenshots'
         }
     );
 
